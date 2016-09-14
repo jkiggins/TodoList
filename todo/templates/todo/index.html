@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Items</title>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+    <script type = "text/javascript">
+        function conv_to_form(e) {
+            ele = e.children;
+            for (var i=0; i < ele.length; i++){
+                var val = ele[i].innerHTML;
+                ele[i].innerHTML = "<input type = \"text\" id ="+e.id+"-"+i+" />";
+                ele[i].children[0].value = val;
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+<table>
+<tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Date/time Created</th>
+    <th>Date Due</th>
+    <th>Time Due</th>
+</tr>
+{% for to in current_todos %}
+    <tr ondblclick="conv_to_form(this)" id = {{ to.id }}>
+        <td>{{ to.name }}</td>
+        <td>{{ to.des }}</td>
+        <td>{{ to.date_created }}</td>
+        <td>{{ to.due_date }}</td>
+        <td>{{ to.due_date }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
