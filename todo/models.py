@@ -13,6 +13,9 @@ class TodoRevisions(models.Model):
     def get_current_revision(self):
         return self.todoitem_set.get(id=self.crev)
 
+    def get_current_revision_as_set(self):
+        return self.todoitem_set.filter(id=self.crev)
+
     def __str__(self):
         return self.crev.__str__()
 

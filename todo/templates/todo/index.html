@@ -4,57 +4,39 @@
     <meta charset="UTF-8">
     <title>Todo Items</title>
 
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
-
-    <script type = "text/javascript">
-        function conv_to_form(e) {
-            ele = e.children;
-            for (var i=0; i < ele.length; i++){
-                var val = ele[i].innerHTML;
-                ele[i].innerHTML = "<input type = \"text\" id ="+e.id+"-"+i+" />";
-                ele[i].children[0].value = val;
-            }
-        }
-
-    </script>
+    <link rel = "stylesheet" type = "text/css" href="/static/todo/main.css" />
 
 </head>
 <body>
+
+<form action="{% url 'todo:newtodo' %}" method="POST">
+{% csrf_token %}
 <table>
 <tr>
     <th>Name</th>
     <th>Description</th>
     <th>Date/time Created</th>
     <th>Date Due</th>
-    <th>Time Due</th>
+    <th>Actions</th>
 </tr>
 {% for to in current_todos %}
-    <tr ondblclick="conv_to_form(this)" id = {{ to.id }}>
+    <tr>
         <td>{{ to.name }}</td>
         <td>{{ to.des }}</td>
         <td>{{ to.date_created }}</td>
         <td>{{ to.due_date }}</td>
-        <td>{{ to.due_date }}</td>
+        <td><a href = {% url 'todo:detail' to.id %}>View</a> </td>
     </tr>
 {% endfor %}
+    <tr style = "background-color: aqua;" class = editing>
+        <td><input type = "text" name = "name" /></td>
+        <td><input type = "text" name = "des" /></td>
+        <td>NOW</td>
+        <td><input type = "text" name = "due_date" /></td>
+        <td><input type = "submit" value = "create"></td>
+    </tr>
 </table>
+</form>
+
 </body>
 </html>
