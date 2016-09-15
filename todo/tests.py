@@ -12,11 +12,11 @@ class test_TodoRevision_ability(TestCase):
         to = tdr.todoitem_set.get(id=1)
 
         self.assertEqual(tdr.crev, 1)
-        self.assertEqual(to.name, "test")
+        self.assertEqual(to.status, "test")
 
         tdr.new_revision("test1", "test1", timezone.now())
         tdr.save()
 
         self.assertEqual(tdr.crev, 2)
-        self.assertEqual(tdr.get_current_revision().name, "test1")
+        self.assertEqual(tdr.get_current_revision().status, "test1")
 

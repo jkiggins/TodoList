@@ -6,6 +6,22 @@
 
     <link rel = "stylesheet" type = "text/css" href="/static/todo/main.css" />
 
+    <script>
+        var d = new Date();
+        var cdate = [d.getFullYear().toString(), d.getMonth().toString(), d.getDay().toString(), d.getHours().toString(), d.getMinutes().toString()]
+
+        for(var i=1; i < cdate.length; i++)
+        {
+            if(cdate[i].length == 1)
+            {
+                cdate[i] = "0"+cdate[i];
+            }
+        }
+
+        var value = cdate[0]+"-"+cdate[1]+"-"+cdate[2]+"T"+cdate[3]+":"+cdate[4];
+
+    </script>
+
 </head>
 <body>
 
@@ -13,30 +29,34 @@
 {% csrf_token %}
 <table>
 <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Date/time Created</th>
-    <th>Date Due</th>
+    <th>Status (<a href="{% url 'todo:index' 'obstat' %}">A</a>, <a href="{% url 'todo:index' 'robstat' %}">D</a>)</th>
+    <th>Description (<a href="{% url 'todo:index' 'obdes' %}">A</a>, <a href="{% url 'todo:index' 'robdes' %}">D</a>)</th>
+    <th>Date/time Created (<a href="{% url 'todo:index' 'obdc' %}">A</a>, <a href="{% url 'todo:index' 'robdc' %}">D</a>)</th>
+    <th>Date Due (<a href="{% url 'todo:index' 'obdd' %}">A</a>, <a href="{% url 'todo:index' 'robdd' %}">D</a>)</th>
     <th>Actions</th>
 </tr>
 {% for to in current_todos %}
     <tr>
-        <td>{{ to.name }}</td>
+        <td>{{ to.status }}</td>
         <td>{{ to.des }}</td>
         <td>{{ to.date_created }}</td>
         <td>{{ to.due_date }}</td>
-        <td><a href = {% url 'todo:detail' to.id %}>View</a> </td>
+        <td><a href = {% url 'todo:detail' to.id %}>View</a> <a href = {% url 'todo:delete' to.id %}>Delete</a></td>
     </tr>
 {% endfor %}
     <tr style = "background-color: aqua;" class = editing>
-        <td><input type = "text" name = "name" /></td>
+        <td><input type = "text" name = "status" value = "New" /></td>
         <td><input type = "text" name = "des" /></td>
         <td>NOW</td>
-        <td><input type = "text" name = "due_date" /></td>
+        <td><input id = "new_stuff" type = "datetime-local" name = "due_date" /></td>
         <td><input type = "submit" value = "create"></td>
     </tr>
 </table>
 </form>
+
+<script>
+    document.getElementById("new_stuff").defaultValue = value;
+</script>
 
 </body>
 </html>
